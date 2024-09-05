@@ -1,39 +1,19 @@
 import { Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import ProductItems from './ProductItems';
+import useFetch from '../customhook/useFetch';
 
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [error, setError] = useState(null); 
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        // Fetch products from API
-        let res;
-        if(searchQuery){
-          res = await fetch(`https://dummyjson.com/products/search?q=${searchQuery}`);
-        }else{
-          res = await fetch('https://dummyjson.com/products');
-        }
 
 
-        if (!res.ok) {
-          // If the response is not ok, throw an error
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
 
-        const data = await res.json();
-        setProducts(data.products); // Update products state
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        setError('Failed to fetch products. Please try again later.'); // Set error message
-      }
-    };
+  const url = searchQuery
+  ? `https://dummyjson.com/products/search?q=${searchQuery}`
+  : 'https://dummyjson.com/products';
 
-    fetchProducts(); 
-  }, [searchQuery]);
+  const { data, loading, error } = useFetch(url);
 
 
 
@@ -66,8 +46,8 @@ const ProductList = () => {
 
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.length > 0 ?
-          products.map((product) => (
+        {data?.products?.length > 0 ?
+          data?.products?.map((product) => (
             <ProductItems
               key={product.id}
               id={product.id}
