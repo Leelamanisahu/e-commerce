@@ -13,7 +13,9 @@ This is a fully functional e-commerce application built using React, Redux, Reac
 **Installation**
 
  -1. clone the repo 
-       git clone https://github.com/Leelamanisahu/e-commerce.git
+
+
+        git clone https://github.com/Leelamanisahu/e-commerce.git
 
         cd e-commerce
 
